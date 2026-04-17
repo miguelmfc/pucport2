@@ -1,0 +1,275 @@
+/* ============================================
+   Layout 1: Estilo terminal IBM PC 5150 / CRT
+   ============================================ */
+
+/* Variáveis do tema terminal (troque --terminal-fg para âmbar se quiser) */
+.layout-retro {
+  --terminal-bg: #0a0a0a;
+  --terminal-fg: #00ff41;        /* Verde fosfórico (IBM 5150) */
+  --terminal-glow: rgba(0, 255, 65, 0.5);
+  --terminal-border: rgba(0, 255, 65, 0.4);
+  --font-terminal: "IBM Plex Mono", "Courier New", monospace;
+}
+
+/* Tema alternativo: âmbar (monitores antigos) */
+.layout-retro.layout-retro--amber {
+  --terminal-fg: #ffb000;
+  --terminal-glow: rgba(255, 176, 0, 0.5);
+  --terminal-border: rgba(255, 176, 0, 0.4);
+}
+
+.layout-retro {
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  background-color: var(--terminal-bg);
+  color: var(--terminal-fg);
+  font-family: var(--font-terminal);
+}
+
+/* Scanlines (efeito CRT) */
+.layout-retro.crt::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(255, 255, 255, 0.03) 0px,
+    rgba(255, 255, 255, 0.03) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+  mix-blend-mode: overlay;
+}
+
+/* Vignette (escurecimento nas bordas) */
+.layout-retro.crt::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+  background: radial-gradient(
+    ellipse at center,
+    transparent 0%,
+    transparent 50%,
+    rgba(0, 0, 0, 0.4) 100%
+  );
+}
+
+/* Blocos de “terminal” dentro do layout */
+.layout-retro .terminal {
+  position: relative;
+  z-index: 0;
+  background-color: var(--terminal-bg);
+  color: var(--terminal-fg);
+  font-family: var(--font-terminal);
+  padding: 2rem 2.5rem;
+  font-size: 1rem;
+  line-height: 1.6;
+  text-shadow: 0 0 8px var(--terminal-glow);
+  border: 2px solid var(--terminal-border);
+  box-shadow: inset 0 0 20px rgba(0, 255, 65, 0.03);
+}
+
+/* Cursor piscante para efeito de digitação */
+.layout-retro .cursor {
+  display: inline-block;
+  animation: terminal-blink 1s steps(1) infinite;
+}
+
+@keyframes terminal-blink {
+  50% { opacity: 0; }
+}
+
+/* Links no tema terminal */
+.layout-retro .terminal a {
+  color: var(--terminal-fg);
+  text-decoration: underline;
+}
+.layout-retro .terminal a:hover {
+  text-shadow: 0 0 10px var(--terminal-glow);
+}
+
+/* Quando o body é controlado pelo layout retro (ex.: página inteira terminal) */
+body.layout-retro-body {
+  display: block;
+  width: 100%;
+  margin: 0;
+  min-height: 100vh;
+  background-color: #0a0a0a;
+}
+body.layout-retro-body #app {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  min-height: 100vh;
+}
+
+/* .container.crt {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1rem;
+} */
+
+/* Blocos de "terminal" dentro do layout – seguem a largura do layout */
+.layout-retro__main .terminal {
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+  background: #000;
+  color: #00ff41;
+  font-family: "Courier New", monospace;
+  padding: 24px;
+  min-height: 100vh;
+  text-shadow: 0 0 4px rgba(0, 255, 65, 0.35);
+}
+
+/* Na home, vários módulos empilhados: sem min-height e espaçamento compacto */
+.layout-retro__main .home-view .monitor-frame {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+.layout-retro__main .home-view .monitor-frame .terminal {
+  min-height: auto;
+  width: 100%;
+  max-width: 100%;
+  box-sizing: border-box;
+}
+
+/* CARD ASCII compacto */
+.card-ascii {
+  --w: 44ch;                   /* largura “80-colunas friendly” */
+  --pad-x: 1ch;                /* padding horizontal compacto */
+  --pad-y: 0.5ch;              /* padding vertical compacto */
+
+  position: relative;
+  width: var(--w);
+  margin-top: 10px;            /* ↓ antes 18px */
+  padding: var(--pad-y) var(--pad-x);
+  background: #000;
+  color: #00ff41;
+  font-family: "Courier New", monospace;
+}
+
+/* topo e base */
+.card-ascii::before,
+.card-ascii::after {
+  content: "+------------------------------------------+";
+  display: block;
+  white-space: pre;
+  line-height: 1;
+}
+
+/* laterais: “|” por linha (em cada filho) */
+.card-ascii > * {
+  position: relative;
+  margin: 0;                   /* zera espaçamento padrão */
+  line-height: 1.2;            /* compacto */
+  padding: 0;                  /* sem padding extra */
+}
+
+/* barra esquerda e direita coladas */
+.card-ascii > *::before,
+.card-ascii > *::after {
+  content: "|";
+  position: absolute;
+  top: 0;
+  color: #00ff41;
+}
+
+.card-ascii > *::before {
+  left: calc(-1 * var(--pad-x)); /* encosta na borda esquerda */
+}
+
+.card-ascii > *::after {
+  right: calc(-1 * var(--pad-x)); /* encosta na borda direita */
+}
+
+/* tipografia */
+.card-ascii h3 {
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  margin-bottom: 0.3ch;
+}
+
+.card-ascii p {
+  font-size: 0.95rem;
+}
+.cards-row {
+    display: flex;
+    gap: 2ch;              /* espaço estilo terminal */
+    flex-wrap: wrap;       /* quebra se tela for pequena */
+    margin-top: 10px;
+  }
+
+  .layout-retro__nav {
+    margin: 1rem;
+    padding: 0.75rem 1.5rem;
+  }
+  .layout-retro__sep {
+    margin: 0 0.75rem;
+    opacity: 0.7;
+  }
+  .layout-retro__main {
+    padding: 0 1.7rem 2rem;
+    min-height: 0;
+  }
+
+  .layout-retro__sentinel {
+    height: 1px;
+    width: 100%;
+    pointer-events: none;
+    visibility: hidden;
+  }
+
+  .layout-retro__prompt {
+    margin: 0px 170px 1.5rem;
+    padding: 1rem 1.5rem;
+  }
+
+  .layout-retro__prompt-msg {
+    margin: 0 0 0.75rem 0;
+    opacity: 0.9;
+  }
+
+  .layout-retro__command-line {
+    display: flex;
+    align-items: center;
+    gap: 0.25rem;
+    flex-wrap: wrap;
+  }
+
+  .layout-retro__prefix {
+    flex-shrink: 0;
+  }
+
+  .layout-retro__input {
+    flex: 1;
+    min-width: 120px;
+    background: transparent;
+    border: none;
+    color: inherit;
+    font-family: var(--font-terminal, "IBM Plex Mono", monospace);
+    font-size: inherit;
+    outline: none;
+  }
+
+  .layout-retro__input::placeholder {
+    opacity: 0.5;
+  }
+
+  .layout-retro__command-line .cursor {
+    flex-shrink: 0;
+  }
+
+  .terminal-layout-retro__prompt{
+    margin: 0px;
+  }
