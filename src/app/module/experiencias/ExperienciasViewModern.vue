@@ -8,6 +8,7 @@
           <span class="exp-card__period">{{ exp.period }}</span>
           <span class="exp-card__tag">{{ exp.tag }}</span>
         </div>
+
         <h2 class="exp-card__role">{{ exp.role }}</h2>
         <p class="exp-card__company">{{ exp.company }}</p>
         <p class="exp-card__desc">{{ exp.description }}</p>
@@ -33,35 +34,29 @@ const experiencias = ref<Experiencia[]>([
     id: 1,
     period: "2023 – 2024",
     tag: "Processos",
-    role: "Estágiario de Processos de TI",
+    role: "Estagiário de Processos de TI",
     company: "Stellantis",
     description:
-      "Desenvolvimento e manutenção " +
-      "de sistemas na área de manufatura.",
+      "Desenvolvimento e manutenção de sistemas na área de manufatura.",
   },
   {
     id: 2,
     period: "2024 – 2025",
     tag: "QA",
-    role: "Estágiario de QA",
+    role: "Estagiário de QA",
     company: "Siggaa",
     description:
-      "Estagiário em qualidade de Software em aplicativo desktop e mobile.",
+      "Estagiário em qualidade de software em aplicativo desktop e mobile.",
   },
-  
+  {
     id: 3,
     period: "2024 – até o momento",
     tag: "Full-stack",
-    role: "Desenvolvedor Java Junior",
+    role: "Desenvolvedor Java Júnior",
     company: "Apsis Informática",
     description:
-    "Desenvolvimento e manutenção " +
-      "em um sistema de gestão de clínicas convêniadas que foca em praticidade e "+
-      "comodidade. Este sistema é construído utilizando "+
-      "tecnologias como Vue.js no frontend, Java no backend e "+
-      "o banco de dados PostgreSQL. Para executar o sistema "+
-      "utilizamos o sistema operacional Linux Manjaro.",
-  
+      "Desenvolvimento e manutenção em um sistema de gestão de clínicas conveniadas que foca em praticidade e comodidade. Este sistema é construído utilizando tecnologias como Vue.js no frontend, Java no backend e o banco de dados PostgreSQL. Para executar o sistema utilizamos o sistema operacional Linux Manjaro.",
+  },
 ]);
 </script>
 
